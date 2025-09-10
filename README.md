@@ -111,7 +111,7 @@ When a user submits a review, the application processes it through these steps:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Deathshot78/ReviewSense
+git clone https://github.com/Deathshot78/ReviewSense.git
 cd ReviewSense
 ```
 
