@@ -1,6 +1,7 @@
 import gradio as gr
 import os
 import torch
+from transformers import AutoTokenizer
 import pandas as pd
 import re
 
@@ -23,10 +24,9 @@ except ImportError:
     class FineTunedSentimentClassifier: pass
 
 # --- Configuration ---
-# --- IMPORTANT: UPDATE THIS PATH ---
-# You need to provide the path to the best checkpoint file that was saved
-# during the training of your sentiment model.
-SENTIMENT_CHECKPOINT_PATH = "checkpoints/sentiment-binary-best-checkpoint.ckpt" # <-- CHANGE THIS
+# This should be the relative path to your checkpoint file within the repository.
+SENTIMENT_CHECKPOINT_PATH = "checkpoints/sentiment-binary-best-checkpoint.ckpt"
+
 
 # --- Pre-defined Aspect Dictionaries for Different Product Categories ---
 ASPECT_DICTIONARIES = {
@@ -37,7 +37,7 @@ ASPECT_DICTIONARIES = {
 }
 
 
-# --- 1. Load All Models (Global Objects) ---
+# --- Load All Models (Global Objects) ---
 print("--- Initializing all models for the Gradio App ---")
 sentiment_classifier, summarizer, aspect_analyzer, aspect_extractor = None, None, None, None
 try:
@@ -45,21 +45,22 @@ try:
     aspect_analyzer = AspectAnalyzer(force_cpu=True)
     aspect_extractor = AspectExtractor(force_cpu=True)
 
-    if not os.path.exists(SENTIMENT_CHECKPOINT_PATH):
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print("!!! WARNING: Sentiment checkpoint path not found or not set.         !!!")
-        print(f"!!! Please update the 'SENTIMENT_CHECKPOINT_PATH' variable in app.py")
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    else:
+    if os.path.exists(SENTIMENT_CHECKPOINT_PATH):
         sentiment_classifier = FineTunedSentimentClassifier(
             checkpoint_path=SENTIMENT_CHECKPOINT_PATH, force_cpu=True
         )
+    else:
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print("!!! WARNING: Sentiment checkpoint path not found.                    !!!")
+        print(f"!!! Path checked: '{SENTIMENT_CHECKPOINT_PATH}'")
+        print("!!! The fine-tuned sentiment model will NOT be loaded.               !!!")
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print("\n--- All models loaded successfully ---\n")
 except Exception as e:
     print(f"An error occurred during model initialization: {e}")
 
 
-# --- 2. Define the Core Analysis Function ---
+# --- Define the Core Analysis Function ---
 def analyze_review(review_text, product_category):
     if not review_text:
         return {"ERROR": "Please enter a review."}, "", None
@@ -71,7 +72,9 @@ def analyze_review(review_text, product_category):
             sentiment_result['label']: f"{sentiment_result['score']:.2f}"
         }
     else:
-        sentiment_output = {"ERROR": "Fine-tuned model not loaded. Check path."}
+        # **ROBUST ERROR HANDLING:** This prevents the app from crashing.
+        # It returns a dictionary that the Gradio Label component can display.
+        sentiment_output = {"Error: Model Not Loaded": 1.0}
 
     # --- b. Review Summarization ---
     if summarizer:
@@ -95,7 +98,7 @@ def analyze_review(review_text, product_category):
     return sentiment_output, summary_output, aspect_df
 
 
-# --- 3. Build the Gradio Interface ---
+# --- Build the Gradio Interface ---
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown("# 🛍️ ReviewSense: Product Review Analysis Engine")
     gr.Markdown(
@@ -154,7 +157,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     )
 
 
-# --- 4. Launch the App ---
+# --- Launch the App ---
 if __name__ == "__main__":
     print("Launching Gradio App...")
     demo.launch()
