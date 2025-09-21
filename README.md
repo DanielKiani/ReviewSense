@@ -9,7 +9,7 @@ Where a simple star rating only tells part of the story, ReviewSense dives into 
 This project demonstrates a complete **MLOps workflow**, from initial data preparation and model fine-tuning to the development and deployment of a multi-model, interactive web application with Gradio.
 
 ![Gradio app](assets/gradio.png)
-You can find the Gradio app [Here]([https://www.kaggle.com/datasets/kritanjalijain/amazon-reviews](https://huggingface.co/spaces/Deathshot78/ReviewSense))
+You can find the Gradio app [Here](https://huggingface.co/spaces/Deathshot78/ReviewSense)
 
 ---
 
