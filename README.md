@@ -10,7 +10,7 @@ This project demonstrates an end-to-end workflow, integrating data processing, l
 ![demo_tab1](assets/tab1.png)
 ![demo_tab2](assets/tab2.png)
 
-You can find the Web demo here ➡ [Web Demo](https://huggingface.co/spaces/Deathshot78/ReviewSense)
+You can find the Web demo here ➡ [Web Demo](https://huggingface.co/spaces/DanielKiani/ReviewSense)
 **[Note]: running this model on the cpu takes a while to complete you can relax and get a cup of coffee while the model generates responses !☕**
 
 ---
@@ -24,10 +24,10 @@ You can find the Web demo here ➡ [Web Demo](https://huggingface.co/spaces/Deat
 - [🔧 Challenges & Limitations](#-challenges--limitations)
 - [💡 Prompt Engineering Journey](#-prompt-engineering-journey)
 - [🔮 Future Improvements](#-future-improvements)
-- [⚙️ Setup and Installation](#️-setup-and-installation)
+- [⚙️ Setup and Installation](#%EF%B8%8F-setup-and-installation)
 - [▶️ Usage](#️-usage)
 - [📁 Project Structure (v2.0)](#-project-structure-v20)
-- [🛠️ Technologies and Models (v2.0)](#️-technologies-and-models-v20)
+- [🛠️ Technologies and Models (v2.0)](#%EF%B8%8F-technologies-and-models-v20)
 - [📜 Version History](#-version-history)
 
 ---
@@ -44,17 +44,17 @@ This chatbot allows users to ask specific questions about product reviews and re
 
 Version 2.0 represents a major leap in functionality and architecture:
 
-1.  **🤖 RAG Chatbot Implementation:** Added an interactive chatbot (Phase 2) that uses Retrieval-Augmented Generation (RAG) to answer user questions based on review context.
-2.  **🧠 Single LLM Architecture:** Replaced the multiple specialized models (DistilBERT, DistilBART, DeBERTa, POS Tagger) from v1.0 with a single, powerful Mistral 7B GGUF model, executed locally via `LlamaCpp`. This model now handles:
-    * Batch Analysis (Summary, Aspects, Sentiment - Phase 1) with higher quality.
-    * RAG-based Question Answering (Phase 2).
-    * Intent Classification (Guardrail for Phase 2).
-3.  **📄 Dynamic Context Management:** The chatbot can now operate on a default set of reviews or dynamically update its knowledge base using user-uploaded `.txt` or `.csv` files.
-4.  **💬 Conversational Memory:** Integrated LangChain's `ConversationBufferMemory` allowing the chatbot to understand follow-up questions.
-5.  **🛡️ Intent Classification Guardrail:** Implemented a robust intent classifier (using the same LLM) to prevent the chatbot from answering off-topic questions, ensuring responses stay grounded in product reviews.
-6.  **🖥️ Unified Gradio UI:** Developed a two-tab Gradio interface (`app.py`) providing access to both the Batch Analyzer and the RAG Chatbot in a single application.
-7.  **💻 Local Execution Script:** Added `main.py` for command-line execution of batch analysis or interactive chat without the Gradio UI.
-8.  **🧱 Modular Code Structure:** Refactored code into `src/pipeline.py` for core logic, improving organization and maintainability.
+1. **🤖 RAG Chatbot Implementation:** Added an interactive chatbot (Phase 2) that uses Retrieval-Augmented Generation (RAG) to answer user questions based on review context.
+2. **🧠 Single LLM Architecture:** Replaced the multiple specialized models (DistilBERT, DistilBART, DeBERTa, POS Tagger) from v1.0 with a single, powerful Mistral 7B GGUF model, executed locally via `LlamaCpp`. This model now handles:
+    - Batch Analysis (Summary, Aspects, Sentiment - Phase 1) with higher quality.
+    - RAG-based Question Answering (Phase 2).
+    - Intent Classification (Guardrail for Phase 2).
+3. **📄 Dynamic Context Management:** The chatbot can now operate on a default set of reviews or dynamically update its knowledge base using user-uploaded `.txt` or `.csv` files.
+4. **💬 Conversational Memory:** Integrated LangChain's `ConversationBufferMemory` allowing the chatbot to understand follow-up questions.
+5. **🛡️ Intent Classification Guardrail:** Implemented a robust intent classifier (using the same LLM) to prevent the chatbot from answering off-topic questions, ensuring responses stay grounded in product reviews.
+6. **🖥️ Unified Gradio UI:** Developed a two-tab Gradio interface (`app.py`) providing access to both the Batch Analyzer and the RAG Chatbot in a single application.
+7. **💻 Local Execution Script:** Added `main.py` for command-line execution of batch analysis or interactive chat without the Gradio UI.
+8. **🧱 Modular Code Structure:** Refactored code into `src/pipeline.py` for core logic, improving organization and maintainability.
 
 ---
 
@@ -63,14 +63,14 @@ Version 2.0 represents a major leap in functionality and architecture:
 Includes all features from v1.0 (now powered by Mistral 7B) **plus**:
 
 - **Interactive RAG Chatbot:**
-    * Ask specific questions about product reviews (e.g., "How is the battery life?", "Is the app reliable?").
-    * Answers synthesized directly from provided review context using RAG.
-    * **Conversational Memory:** Understands follow-up questions ("What about the screen?").
-    * **Grounded Responses:** Designed to answer only based on the reviews provided.
-    * **Intent Guardrail:** Filters out and responds appropriately to off-topic questions.
+  - Ask specific questions about product reviews (e.g., "How is the battery life?", "Is the app reliable?").
+  - Answers synthesized directly from provided review context using RAG.
+  - **Conversational Memory:** Understands follow-up questions ("What about the screen?").
+  - **Grounded Responses:** Designed to answer only based on the reviews provided.
+  - **Intent Guardrail:** Filters out and responds appropriately to off-topic questions.
 - **Dynamic Context Loading:**
-    * Chatbot operates on default reviews or context loaded from user-uploaded files (`.txt`/`.csv`).
-    * Clear indication of the currently active context.
+  - Chatbot operates on default reviews or context loaded from user-uploaded files (`.txt`/`.csv`).
+  - Clear indication of the currently active context.
 - **Unified LLM Backend:** All NLP tasks (analysis, Q&A, classification) handled by a single Mistral 7B GGUF model running locally.
 - **Dual Interface:** Accessible via Gradio web UI (`app.py`) or command line (`main.py`).
 
@@ -79,22 +79,24 @@ Includes all features from v1.0 (now powered by Mistral 7B) **plus**:
 ## 🧠 How It Works: The v2.0 Pipeline
 
 **Phase 1: Batch Analysis (via `analyze_reviews_only` or `analyze_reviews_logic`)**
-1.  User provides review text (paste or file).
-2.  The text is passed to the Mistral LLM using three distinct prompts (Summarization, Aspect Extraction, Sentiment Analysis).
-3.  The LLM generates the three analysis outputs.
+
+1. User provides review text (paste or file).
+2. The text is passed to the Mistral LLM using three distinct prompts (Summarization, Aspect Extraction, Sentiment Analysis).
+3. The LLM generates the three analysis outputs.
 
 **Phase 2: RAG Chatbot (via `ask_question_with_guardrail` or `get_chatbot_response`)**
-1.  User asks a question.
-2.  **Intent Classification:** The query is first sent to the Mistral LLM with the `intent_prompt` (few-shot) to classify it as "Product" or "Off-Topic". Robust parsing checks the LLM output.
-3.  **Routing:**
-    * If "Off-Topic", a canned response is returned.
-    * If "Product", proceed to RAG.
-4.  **Context Retrieval:** The user's question is used to query the current FAISS vector store (containing embeddings of the active review context) to retrieve the top `k` relevant review snippets.
-5.  **Conversational Chain Execution (`ConversationalRetrievalChain`):**
-    * **Condense Question:** If there's chat history, the LLM uses `CONDENSE_QUESTION_PROMPT` to rephrase the current question into a standalone query.
-    * **RAG Generation:** The condensed question and retrieved context snippets are passed to the LLM with the strict `qa_prompt`. The LLM synthesizes an answer based *only* on the provided context.
-    * **Memory Update:** The question and final answer are added to the `ConversationBufferMemory`.
-6.  **Response:** The synthesized answer is returned to the user.
+
+1. User asks a question.
+2. **Intent Classification:** The query is first sent to the Mistral LLM with the `intent_prompt` (few-shot) to classify it as "Product" or "Off-Topic". Robust parsing checks the LLM output.
+3. **Routing:**
+    - If "Off-Topic", a canned response is returned.
+    - If "Product", proceed to RAG.
+4. **Context Retrieval:** The user's question is used to query the current FAISS vector store (containing embeddings of the active review context) to retrieve the top `k` relevant review snippets.
+5. **Conversational Chain Execution (`ConversationalRetrievalChain`):**
+    - **Condense Question:** If there's chat history, the LLM uses `CONDENSE_QUESTION_PROMPT` to rephrase the current question into a standalone query.
+    - **RAG Generation:** The condensed question and retrieved context snippets are passed to the LLM with the strict `qa_prompt`. The LLM synthesizes an answer based *only* on the provided context.
+    - **Memory Update:** The question and final answer are added to the `ConversationBufferMemory`.
+6. **Response:** The synthesized answer is returned to the user.
 
 ---
 
@@ -102,15 +104,15 @@ Includes all features from v1.0 (now powered by Mistral 7B) **plus**:
 
 Developing v2.0 involved significant experimentation and revealed several challenges:
 
-1.  **Consistent Instruction Following:** While powerful, the Mistral 7B GGUF model sometimes struggled to consistently follow complex negative constraints or nuanced instructions in prompts, especially within the RAG chain. This led to:
-    * **Context Leakage:** Occasionally including irrelevant details from retrieved chunks (e.g., mentioning webcam when asked about battery).
-    * **Hallucination:** Making up information (e.g., mentioning "phone" for laptop battery, inventing prices or product names).
-    * **Over-Cautiousness:** Incorrectly stating "cannot find information" even when relevant details were present in the context, particularly for negative aspects (e.g., hardware issues).
-    * **Misinterpretation:** Failing to correctly understand the specific user question (e.g., "taste" vs. "type", comparison questions).
-2.  **Prompt Engineering Complexity:** Finding the right prompt structure required extensive iteration. Simple prompts lacked control, while overly complex prompts sometimes confused the model. Few-shot prompting proved essential for reliable intent classification. Balancing strictness (for grounding) with flexibility (to allow synthesis) in the RAG prompt was difficult.
-3.  **Intent Classification Brittleness:** Getting the LLM to output *only* the classification label required moving from zero-shot, to strict instructions, to few-shot examples, and finally adding robust parsing logic (`parse_intent`) to handle noisy LLM outputs reliably.
-4.  **Performance:** Running the 7B parameter GGUF model on a CPU is significantly slower than using smaller models or GPU acceleration. Batch analysis and RAG responses take noticeable time.
-5.  **Evaluation Bottleneck:** Using external APIs (like OpenAI) for RAGAs evaluation can incur costs and hit rate limits. Using the local model for evaluation is free but slower and potentially less objective.
+1. **Consistent Instruction Following:** While powerful, the Mistral 7B GGUF model sometimes struggled to consistently follow complex negative constraints or nuanced instructions in prompts, especially within the RAG chain. This led to:
+    - **Context Leakage:** Occasionally including irrelevant details from retrieved chunks (e.g., mentioning webcam when asked about battery).
+    - **Hallucination:** Making up information (e.g., mentioning "phone" for laptop battery, inventing prices or product names).
+    - **Over-Cautiousness:** Incorrectly stating "cannot find information" even when relevant details were present in the context, particularly for negative aspects (e.g., hardware issues).
+    - **Misinterpretation:** Failing to correctly understand the specific user question (e.g., "taste" vs. "type", comparison questions).
+2. **Prompt Engineering Complexity:** Finding the right prompt structure required extensive iteration. Simple prompts lacked control, while overly complex prompts sometimes confused the model. Few-shot prompting proved essential for reliable intent classification. Balancing strictness (for grounding) with flexibility (to allow synthesis) in the RAG prompt was difficult.
+3. **Intent Classification Brittleness:** Getting the LLM to output *only* the classification label required moving from zero-shot, to strict instructions, to few-shot examples, and finally adding robust parsing logic (`parse_intent`) to handle noisy LLM outputs reliably.
+4. **Performance:** Running the 7B parameter GGUF model on a CPU is significantly slower than using smaller models or GPU acceleration. Batch analysis and RAG responses take noticeable time.
+5. **Evaluation Bottleneck:** Using external APIs (like OpenAI) for RAGAs evaluation can incur costs and hit rate limits. Using the local model for evaluation is free but slower and potentially less objective.
 
 ---
 
@@ -120,10 +122,10 @@ Achieving the final, relatively stable performance required significant iteratio
 
 **Intent Classification (`intent_prompt`):**
 
-* Initial attempts with simple zero-shot prompts failed, with the model providing verbose, incorrect classifications.
-* Adding strict formatting rules (`MUST BE EXACTLY...`) helped but wasn't sufficient.
-* **Few-Shot Prompting** (providing explicit examples within the prompt) proved crucial for forcing the model to output the correct labels, although often with extra text.
-* **Robust Parsing (`parse_intent`)** was added to reliably extract the core "Product" or "Off-Topic" keyword from the model's potentially noisy output.
+- Initial attempts with simple zero-shot prompts failed, with the model providing verbose, incorrect classifications.
+- Adding strict formatting rules (`MUST BE EXACTLY...`) helped but wasn't sufficient.
+- **Few-Shot Prompting** (providing explicit examples within the prompt) proved crucial for forcing the model to output the correct labels, although often with extra text.
+- **Robust Parsing (`parse_intent`)** was added to reliably extract the core "Product" or "Off-Topic" keyword from the model's potentially noisy output.
 
 **Final `intent_template`:**
 
@@ -155,13 +157,13 @@ Classification:"""
 
 **RAG Generation (`qa_system_prompt`):**
 
-* Initial simple prompts led to significant hallucination and context leakage.
+- Initial simple prompts led to significant hallucination and context leakage.
 
-* Adding strict rules improved grounding but sometimes made the model overly cautious, failing to find information present in the context.
+- Adding strict rules improved grounding but sometimes made the model overly cautious, failing to find information present in the context.
 
-* Explicitly addressing failure modes (like comparisons) helped for those specific cases.
+- Explicitly addressing failure modes (like comparisons) helped for those specific cases.
 
-* Experimenting with different chain types (`stuff`, `map_reduce`, `refine`) showed limitations related to context window size and model instruction following. `stuff` with `ConversationalRetrievalChain` proved most practical.
+- Experimenting with different chain types (`stuff`, `map_reduce`, `refine`) showed limitations related to context window size and model instruction following. `stuff` with `ConversationalRetrievalChain` proved most practical.
 
 **Final qa_system_prompt (within qa_prompt):**
 
@@ -193,17 +195,17 @@ This iterative process demonstrates the practical challenges and refinement need
 
 ## 🔮 Future Improvements
 
-* **RAG Evaluation**: Fully implement and integrate RAGAs (or TruLens) evaluation using the local LLM or a free tier API to get quantitative metrics on Faithfulness, Answer Relevancy, etc.
+- **RAG Evaluation**: Fully implement and integrate RAGAs (or TruLens) evaluation using the local LLM or a free tier API to get quantitative metrics on Faithfulness, Answer Relevancy, etc.
 
-* **LLM Upgrade**: Experiment with larger or more advanced instruction-tuned models (e.g., Mixtral GGUF, Llama 3 70/8B Instruct GGUF, or API-based models like GPT-4/Claude 3) to achieve higher consistency in instruction following and synthesis.
+- **LLM Upgrade**: Experiment with larger or more advanced instruction-tuned models (e.g., Mixtral GGUF, Llama 3 70/8B Instruct GGUF, or API-based models like GPT-4/Claude 3) to achieve higher consistency in instruction following and synthesis.
 
-* **Advanced Retrieval**: Explore more sophisticated retrieval techniques (e.g., HyDE, MultiQueryRetriever, Re-ranking) to improve the quality of context chunks passed to the LLM, potentially reducing generation errors.
+- **Advanced Retrieval**: Explore more sophisticated retrieval techniques (e.g., HyDE, MultiQueryRetriever, Re-ranking) to improve the quality of context chunks passed to the LLM, potentially reducing generation errors.
 
-* **Batch Processing for Analysis**: Re-implement batch processing for Phase 1 using techniques like `map_reduce` to handle large numbers of reviews that exceed the LLM's context window.
+- **Batch Processing for Analysis**: Re-implement batch processing for Phase 1 using techniques like `map_reduce` to handle large numbers of reviews that exceed the LLM's context window.
 
-* **Error Handling & UI**: Add more granular error handling and user feedback in the Gradio UI (e.g., clearer messages if context loading fails).
+- **Error Handling & UI**: Add more granular error handling and user feedback in the Gradio UI (e.g., clearer messages if context loading fails).
 
-* **Automated Testing**: Implement unit and integration tests using `pytest` for the core logic in `src/pipeline.py`.
+- **Automated Testing**: Implement unit and integration tests using `pytest` for the core logic in `src/pipeline.py`.
 
 ---
 
@@ -238,11 +240,11 @@ Run the Gradio app:
 python app.py
 ```
 
-Access the interface in your browser 
+Access the interface in your browser
 
-* **Tab 1 ("Batch Analyzer"):** Paste reviews or upload a file to perform Summary, Aspect Extraction, and Sentiment Analysis. This does not affect the chatbot context.
+- **Tab 1 ("Batch Analyzer"):** Paste reviews or upload a file to perform Summary, Aspect Extraction, and Sentiment Analysis. This does not affect the chatbot context.
 
-* **Tab 2 ("Ask a Question"):** Chat with the RAG bot. Use the file upload and "Update Chatbot Context" button within this tab to change the reviews the chatbot uses. Use "Reset Chatbot Context to Default" to revert to the built-in laptop reviews. Use "Reset Chat Memory" to clear the conversation history.
+- **Tab 2 ("Ask a Question"):** Chat with the RAG bot. Use the file upload and "Update Chatbot Context" button within this tab to change the reviews the chatbot uses. Use "Reset Chatbot Context to Default" to revert to the built-in laptop reviews. Use "Reset Chat Memory" to clear the conversation history.
 
 ---
 
@@ -266,30 +268,30 @@ ReviewSense/
 
 **Core Technologies**
 
-* Python 3.10+
+- Python 3.10+
 
-* LangChain: Orchestration, Chains (ConversationalRetrievalChain), Memory, Prompts
+- LangChain: Orchestration, Chains (ConversationalRetrievalChain), Memory, Prompts
 
-* llama-cpp-python: Local execution of GGUF models on CPU
+- llama-cpp-python: Local execution of GGUF models on CPU
 
-* FAISS (faiss-cpu): Efficient vector similarity search
+- FAISS (faiss-cpu): Efficient vector similarity search
 
-* Sentence-Transformers (all-MiniLM-L6-v2): Text embeddings
+- Sentence-Transformers (all-MiniLM-L6-v2): Text embeddings
 
-* Gradio: Interactive web UI
+- Gradio: Interactive web UI
 
-* PyTorch (dependency via transformers/sentence-transformers)
+- PyTorch (dependency via transformers/sentence-transformers)
 
-* Pandas, NumPy (standard data handling)
+- Pandas, NumPy (standard data handling)
 
 **Core LLM**
 
-* Mistral 7B Instruct v0.1 (GGUF Q4_K_M): Used for all NLP tasks (Analysis, RAG Generation, Intent Classification). Downloaded from TheBloke on Hugging Face.
+- Mistral 7B Instruct v0.1 (GGUF Q4_K_M): Used for all NLP tasks (Analysis, RAG Generation, Intent Classification). Downloaded from TheBloke on Hugging Face.
   
 ---
 
 ## 📜 Version History
 
-* v2.0 (Current): RAG Chatbot, Single Mistral 7B model, Dynamic Context, Memory, Guardrails, Gradio UI, Code Refactoring.
+- v2.0 (Current): RAG Chatbot, Single Mistral 7B model, Dynamic Context, Memory, Guardrails, Gradio UI, Code Refactoring.
 
-* v1.0: [https://github.com/DanielKiani/ReviewSense/releases/tag/v1.0] - Initial Batch Analysis Engine using multiple specialized models (DistilBERT, DistilBART, etc.). Focused on Sentiment, Aspects, and Summarization. (See v1.0 README for full details).
+- v1.0: [https://github.com/DanielKiani/ReviewSense/releases/tag/v1.0] - Initial Batch Analysis Engine using multiple specialized models (DistilBERT, DistilBART, etc.). Focused on Sentiment, Aspects, and Summarization. (See v1.0 README for full details).
