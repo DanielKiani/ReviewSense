@@ -109,7 +109,7 @@ Developing v2.0 involved significant experimentation and revealed several challe
     * **Misinterpretation:** Failing to correctly understand the specific user question (e.g., "taste" vs. "type", comparison questions).
 2.  **Prompt Engineering Complexity:** Finding the right prompt structure required extensive iteration. Simple prompts lacked control, while overly complex prompts sometimes confused the model. Few-shot prompting proved essential for reliable intent classification. Balancing strictness (for grounding) with flexibility (to allow synthesis) in the RAG prompt was difficult.
 3.  **Intent Classification Brittleness:** Getting the LLM to output *only* the classification label required moving from zero-shot, to strict instructions, to few-shot examples, and finally adding robust parsing logic (`parse_intent`) to handle noisy LLM outputs reliably.
-4.  **Performance:** Running the 7B parameter GGUF model on a CPU is significantly slower than using smaller models or GPU acceleration. Batch analysis and RAG responses take noticeable time (though acceptable for demonstration).
+4.  **Performance:** Running the 7B parameter GGUF model on a CPU is significantly slower than using smaller models or GPU acceleration. Batch analysis and RAG responses take noticeable time.
 5.  **Evaluation Bottleneck:** Using external APIs (like OpenAI) for RAGAs evaluation can incur costs and hit rate limits. Using the local model for evaluation is free but slower and potentially less objective.
 
 ---
@@ -292,4 +292,4 @@ ReviewSense/
 
 * v2.0 (Current): RAG Chatbot, Single Mistral 7B model, Dynamic Context, Memory, Guardrails, Gradio UI, Code Refactoring.
 
-* v1.0: [Link to v1.0 Release/Tag on GitHub, e.g., https://www.google.com/search?q=https://github.com/Deathshot78/ReviewSense/releases/tag/v1.0] - Initial Batch Analysis Engine using multiple specialized models (DistilBERT, DistilBART, etc.). Focused on Sentiment, Aspects, and Summarization. (See v1.0 README for full details).
+* v1.0: [https://github.com/DanielKiani/ReviewSense/releases/tag/v1.0] - Initial Batch Analysis Engine using multiple specialized models (DistilBERT, DistilBART, etc.). Focused on Sentiment, Aspects, and Summarization. (See v1.0 README for full details).
