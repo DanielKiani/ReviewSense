@@ -10,7 +10,7 @@ import os
 import argparse # For command-line arguments
 
 # Import the logic functions from src
-import src.pipeline as pipeline
+import pipeline
 
 # --- Global Objects & Setup ---
 # (Similar setup as app.py, load models, prompts etc.)
