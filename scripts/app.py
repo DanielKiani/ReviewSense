@@ -11,7 +11,7 @@ import os
 import io
 
 # Import the logic functions from src
-import src.pipeline as pipeline
+import pipeline
 
 # --- Global Objects & Setup ---
 # (Most setup code remains here as it's needed globally for the app)
