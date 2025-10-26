@@ -10,8 +10,17 @@ This project demonstrates an end-to-end workflow, integrating data processing, l
 ![demo_tab1](assets/tab1.png)
 ![demo_tab2](assets/tab2.png)
 
-You can find the Web demo here ➡ [Web Demo](https://huggingface.co/spaces/DanielKiani/ReviewSense)
-**[Note]: running this model on the cpu takes a while to complete you can relax and get a cup of coffee while the model generates responses !☕**
+**Deployment on Hugging Face Spaces (Important Note):**
+
+This application utilizes the llama-cpp-python library to run the Mistral 7B GGUF model locally. Compiling this library requires significant CPU and RAM resources.
+
+While the application runs successfully on local machines (CPU), deploying it to the free tier of Hugging Face Spaces often fails during the build process due to resource limitations insufficient for compiling the necessary llama-cpp-python version compatible with the Mistral model.
+
+An older version of llama-cpp-python might build successfully but is incompatible with the modern GGUF model file, leading to runtime errors during inference.
+
+Recommendation: To deploy this application successfully on Hugging Face Spaces, upgrading to a paid hardware tier (e.g., "CPU Upgrade" or a GPU tier) is typically required to provide adequate resources for the build step.
+
+The code provided in this repository is fully functional when run locally following the setup instructions.
 
 ---
 
